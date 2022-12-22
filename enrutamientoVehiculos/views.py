@@ -18,11 +18,11 @@ class IRDocumentList(ListView):
 
     def get(self, request: HttpRequest) -> HttpResponse:
         # para saber luego q modelo aplicar
-        # type_query = request.GET["choices-single-defaul"]
-        # query = request.GET["search"]  # Consulta desde la web
+        resource = vectorial_model("")
+        query = request.GET["search"]  
         #resource = []
         #if (type_query == "Vectorial"):
-        #resource = vectorial_model("")
+      
         return render(request, 'documents_rec.html', {'document_list': []})
         
         
