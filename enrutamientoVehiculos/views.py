@@ -6,8 +6,11 @@ from django.contrib import messages
 from enrutamientoVehiculos.ir_logic.load import charge_corpus
 from enrutamientoVehiculos.ir_logic.vectorial_model import vectorial_model
 # Create your views here.
+
+
 def index(request):
     return render(request, 'index.html')
+
 
 class DocumentList(ListView):
     model = Publication
@@ -15,7 +18,8 @@ class DocumentList(ListView):
 
         doc = Publication.objects.all()
 
-        return render(request,'documents.html', {'object_list': doc})
+        return render(request, 'documents.html', {'object_list': doc})
+
 
 class IRDocumentList(ListView):
 
