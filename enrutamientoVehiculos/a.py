@@ -3,7 +3,7 @@ sys.path.append('C:/Users/lachy/Desktop/PMA/pma')
 os.environ['DJANGO_SETTINGS_MODULE'] = 'pma.settings'
 import django
 django.setup()
-
+from django.contrib import messages
 from enrutamientoVehiculos.models import *
 
 
@@ -24,6 +24,4 @@ def load_corpus(path):
         print("La direccion no es correcta")
     print("Listo")
 
-#a = 
 
-load_corpus('C:/Users/lachy/Music/vrp___')

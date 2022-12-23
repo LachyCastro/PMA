@@ -2,11 +2,11 @@ import pickle
 from collections import Counter
 from .ranking import order_ranking, cal_ranking
 from .proc_query import calc_tf_query, calc_weight_query, get_query_input_v
-from .load import charge_corpus
+#from ranking import order_ranking, cal_ranking
+#from proc_query import calc_tf_query, calc_weight_query, get_query_input_v
 
-def vectorial_model(query,load_c):
-    if not load_c:
-        charge_corpus()
+def vectorial_model(query):
+    
     splited_query = query.split()
     procesed_query = get_query_input_v(splited_query)
 
@@ -28,3 +28,5 @@ def vectorial_model(query,load_c):
                        dic_indx_tfidf, procesed_query)
     orded_rank = order_ranking(rank, dic_doc_patch)
     return orded_rank
+
+vectorial_model("circuit and a simple binary")
