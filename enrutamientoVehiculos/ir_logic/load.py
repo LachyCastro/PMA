@@ -2,6 +2,10 @@ import pickle
 import os
 from sklearn.feature_extraction.text import TfidfVectorizer
 from .proc_text import filter_words
+#from proc_text import filter_words
+from pathlib import Path
+from PyPDF2 import PdfReader
+
 def load_corpus(path):
     text = []
     dict_doc_path = {}
@@ -12,16 +16,21 @@ def load_corpus(path):
             for filename in files:
                 with open(os.path.join(root, filename), encoding='utf8', errors='ignore') as f:
                     dict_doc_path[doc] = os.path.join(root, filename)
+                    complete_path = os.path.join(root, filename) 
+                    complete_path = complete_path.replace('\\','/')
+                    text_pdf = read_pdf(complete_path)
                     doc += 1
-                    text.append(f.read())
+                    text.append(text_pdf)
     else:
         print("La direccion no es correcta")
 
     return [text, dict_doc_path]
 
 def charge_corpus():
-    text, dic_doc_path = load_corpus(
-        'C:/Users/acer/Downloads/Telegram Desktop/vaswani/vaswani')
+    BASE_DIR = Path(__file__).resolve().parent.parent.parent
+    STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static/documents'),)
+    path = STATICFILES_DIRS[0].replace('\\','/')
+    text, dic_doc_path = load_corpus(path)
     tfidf = TfidfVectorizer()
     filter_text = []
     count = 0
@@ -56,3 +65,14 @@ def charge_corpus():
     with open('dic_doc_path.txt', 'wb') as fh:
         pickle.dump(dic_doc_path, fh)
         fh.close()
+
+def read_pdf(path):
+    temp = open(path, 'rb')
+    PDF_read = PdfReader(temp)
+    text = ''
+    for x in range(len(PDF_read.pages)):
+        first_page = PDF_read.pages[x].extract_text() + " "
+        text += first_page
+    return text
+
+charge_corpus()

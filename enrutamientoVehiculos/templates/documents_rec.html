@@ -5,48 +5,61 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">      
       <link rel="stylesheet" href="{% static 'search_bar/css/bootstrap.min.css' %}">
+      <link rel="stylesheet" href="{% static 'css/jquery.dataTables.min.css' %}">
+      <script src="{% static 'js/jquery-3.5.1.js' %}"></script>
+      <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+      <script src="{% static 'js/date-eu.js' %}"></script>
 </head>
-<form action="/documents/" method="get">
+<form action="/documents_rec/" method="get">
     <div class="input-group">
-        <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-        <button type="button" class="btn btn-outline-primary">search</button>
-        <button type="button" class="btn btn-outline-primary" name="graph" id>graph</button>
+        <input name="query" id="query" type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+        <button type="submit" class="btn btn-outline-primary" id="search" name="search" >search</button>
+        <button type="button" class="btn btn-outline-primary" name="graph" >graph</button>
+        <button type="submit" class="btn btn-outline-primary" id="charge" name="charge" >charge corpus</button>
       </div>
 </form>
-<table id="documents" class="table table-striped table-bordered" style="width:100%">
-    <thead>
-        <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Autor's</th>
-            <th scope="col">Approach used</th>
-            <th scope="col">Open</th> 
 
-        </tr>
-    </thead>
-
-    <tbody>
-        {% if object_list %}
-        {% for object in object_list %}
-        <tr>
-          <td>{{ object.name }}</td>
-          <td>{{ object.autor }}</td>
-          <td>{{ object.solutions_method }}</td>
-          <td>
-            <object data="myfile.pdf" type="application/pdf" width="100%" height="100%">
-              <a href= "{% static "documents/" %}{{object.solutions_method}}/{{object.name}}" >PDF!</a>
-            </object>
-          </td>
-        </tr>
-        {% endfor %}
-        {% else %}
-        <div class="alert alert-dismissible alert-danger">
-          <strong>Lo sentimos!</strong> Parece que no existe información aún. Si eres posee credenciales administrativas puede insertarlo <a
-            href="../admin/">aquí</a>.
-        </div>
-        {% endif %}
-      </tbody>
-</table>
-
+<br>
+  <table id="documents" class="table table-striped table-bordered" style="width:100%">
+      <thead>
+          <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Score</th>
+              <th scope="col">Open</th> 
+          
+          </tr>
+      </thead>
+      
+      <tbody>
+          {% if object_list %}
+          {% for object in object_list %}
+          <tr>
+            <td>{{ object.0 }}</td>
+            <td>{{ object.1 }}</td>
+            <td>
+              <!-- <object data="myfile.pdf" type="application/pdf" width="100%" height="100%">
+                <a href= "{% static "documents/" %}{{object.solutions_method}}/{{object.name}}" >PDF!</a>
+              </object> -->
+            
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+  </table>
+{% endif %}
+{% if messages %}
+{% for message in messages %}
+  {% if message.level == 40 %}
+    <div class="alert alert-danger">
+        {{ message.message }}
+    </div>
+  {% else %}
+    <div class="alert alert-success">
+      {{ message.message }}
+    </div>
+    {% endif %}
+{% endfor %}
+{% endif %}
 <script type="text/javascript">
   $(document).ready(function () {
       $.noConflict();
